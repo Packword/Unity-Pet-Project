@@ -7,20 +7,20 @@ public class PlayerJump : MonoBehaviour
     [SerializeField] private CharacterController _characterController;
     [SerializeField] private float _jumpHeight = 5.0f;
 
-    private Extensions _services = Extensions.Instance;
+    private readonly Extensions _services = Extensions.Instance;
     private InputService _inputService;
     private bool _isJumping = false;
     private Vector3 _verticalVelocity;
 
     private const float Gravity = -9.81f;
 
-    void Start()
+    private void Start()
     {
         _inputService = _services.GetService<InputService>();
         _verticalVelocity = Vector3.up * Gravity;
     }
 
-    void Update()
+    private void Update()
     {
         if (CanJump())
             Jump();

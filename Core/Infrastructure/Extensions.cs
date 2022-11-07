@@ -18,11 +18,4 @@
             public static TService Container;
         }
     }
-    public interface IService 
-    { 
-        
-    }
-
 }
-
-

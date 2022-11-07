@@ -6,7 +6,7 @@ namespace Assets.CodeBase.Core
     {
         [SerializeField] private GameObject _heroPrefab;
 
-        private Extensions _services = Extensions.Instance;
+        private readonly Extensions _services = Extensions.Instance;
 
         private void Start()
         {
@@ -23,5 +23,3 @@ namespace Assets.CodeBase.Core
         }
     }
 }
-
-

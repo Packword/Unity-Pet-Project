@@ -14,23 +14,14 @@ internal class InputService: IService
         }
     }
 
-    public Vector3 MousePosition => Input.mousePosition;
+    public Vector3 MousePosition 
+        => Input.mousePosition;
 
     public bool IsHorizontalOrVerticalButtonPressed
-    {
-        get
-        {
-            return Input.GetButton("Horizontal") || Input.GetButton("Vertical");
-        }
-    }
+        => Input.GetButton("Horizontal") || Input.GetButton("Vertical");
 
-    public bool IsJumpButtonPressed
-    {
-        get
-        {
-            return Input.GetButtonDown("Jump");
-        }
-    }
+    public bool IsJumpButtonPressed 
+        => Input.GetButtonDown("Jump");
 
     public bool IsShootButtonClicked() 
         => Input.GetMouseButtonDown(0);

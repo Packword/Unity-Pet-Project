@@ -13,6 +13,7 @@ public class MainCamera
         _inputService = _services.GetService<InputService>();
         _camera = Camera.main;
     }
+
     public Ray GetCameraRayToMousePosition()
     {
         _cameraRay = _camera.ScreenPointToRay(_inputService.MousePosition);

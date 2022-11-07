@@ -7,14 +7,10 @@ namespace Assets.CodeBase.Core
         private readonly FactoryHero _factoryHero;
 
         public LoadLevelState(FactoryHero factoryHero)
-        {
-            _factoryHero = factoryHero;
-        }
+            => _factoryHero = factoryHero;
 
         public void Enter()
-        {
-            CreateHero();
-        }
+            => CreateHero();
 
         private void CreateHero()
         {
@@ -24,8 +20,7 @@ namespace Assets.CodeBase.Core
 
         public void Exit()
         {
+
         }
     }
 }
-
-

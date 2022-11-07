@@ -9,26 +9,25 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _distanceCheck = 0.15f;
 
-    void Update()
+    private void Update()
     {
         Ray projectileRay = new Ray(transform.position, transform.forward);
 
         if (IsRayHitObject(projectileRay, out RaycastHit hit))
-        {
-            GameObject.Instantiate(_particlePrefab, hit.point, Quaternion.LookRotation(hit.normal));
-            GameObject.Destroy(gameObject);
-        }
+            DestroyProjectileWithParticles(hit);
 
         UpdatePosition();
     }
 
     private bool IsRayHitObject(Ray ray, out RaycastHit hit)
+        => Physics.Raycast(ray, out hit, _distanceCheck, ~IgnoredLayersMask) == true;
+
+    private void DestroyProjectileWithParticles(RaycastHit hit)
     {
-        return Physics.Raycast(ray, out hit, _distanceCheck, ~IgnoredLayersMask) == true;
+        GameObject.Instantiate(_particlePrefab, hit.point, Quaternion.LookRotation(hit.normal));
+        GameObject.Destroy(gameObject);
     }
 
     private void UpdatePosition()
-    {
-        transform.position += Direction * _speed * Time.deltaTime;
-    }
+        => transform.position += Direction * _speed * Time.deltaTime;
 }

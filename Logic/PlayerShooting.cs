@@ -1,42 +1,35 @@
 using UnityEngine;
 using Assets.CodeBase.Core;
 
-public partial class PlayerShooting : MonoBehaviour
+public class PlayerShooting : MonoBehaviour
 {
     public GameObject _projectilePrefab;
 
     [SerializeField] private Transform _gunPoint;
     [SerializeField] private LayerMask _ignoredLayersMask;
 
-    private Extensions _services = Extensions.Instance;
+    private readonly Extensions _services = Extensions.Instance;
     private InputService _inputService;
-    void Start()
+
+    private void Start()
+        => _inputService = _services.GetService<InputService>();
+
+    private void Update()
     {
-        _inputService = _services.GetService<InputService>();
+        if (HasInput())
+            ShootWithDebug();
     }
 
-    void Update()
+    private bool HasInput() 
+        => _inputService.IsShootButtonClicked();
+
+    private void ShootWithDebug()
     {
-        if (_inputService.IsShootButtonClicked())
-        {
-            MainCamera mainCam = new MainCamera();
-            Ray cameraRay = mainCam.GetCameraRayToMousePosition();
+        MainCamera mainCam = new MainCamera();
+        Ray cameraRay = mainCam.GetCameraRayToMousePosition();
 
-            if (IsRayHitObject(cameraRay, out RaycastHit hit))
-            {
-                Vector3 direction = ComputeNormalizedDirection(hit);
-                DrowDebugRay(direction);
-
-                CreateProjectile(hit, direction);
-            }
-        }
-    }
-
-    private void CreateProjectile(RaycastHit hit, Vector3 direction)
-    {
-        GameObject projectile = Instantiate(_projectilePrefab, _gunPoint.position, Quaternion.identity);
-        projectile.transform.LookAt(hit.point);
-        projectile.GetComponent<Projectile>().Direction = direction;
+        if (IsRayHitObject(cameraRay, out RaycastHit hit))
+            ReleaseProjectile(hit);
     }
 
     private bool IsRayHitObject(Ray ray, out RaycastHit hit)
@@ -45,15 +38,27 @@ public partial class PlayerShooting : MonoBehaviour
         return Physics.Raycast(ray, out hit, distanceCheck, ~_ignoredLayersMask);
     }
 
+    private void ReleaseProjectile(RaycastHit hit)
+    {
+        Vector3 direction = ComputeNormalizedDirection(hit);
+        DrowDebugRay(direction);
+
+        CreateProjectile(hit, direction);
+    }
+
+    private Vector3 ComputeNormalizedDirection(RaycastHit hit)
+        => (hit.point - _gunPoint.position).normalized;
+
     private void DrowDebugRay(Vector3 direction)
     {
         float debugDuration = 4.0f;
         Debug.DrawRay(_gunPoint.position, direction, Color.green, debugDuration);
     }
 
-    private Vector3 ComputeNormalizedDirection(RaycastHit hit)
+    private void CreateProjectile(RaycastHit hit, Vector3 direction)
     {
-        return (hit.point - _gunPoint.position).normalized;
+        GameObject projectile = Instantiate(_projectilePrefab, _gunPoint.position, Quaternion.identity);
+        projectile.transform.LookAt(hit.point);
+        projectile.GetComponent<Projectile>().Direction = direction;
     }
-
 }
