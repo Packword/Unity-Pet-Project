@@ -29,9 +29,7 @@ public class PlayerJump : MonoBehaviour
     }
 
     private bool CanJump()
-    {
-        return _inputService.IsJumpButtonPressed && !(_isJumping);
-    }
+        => _inputService.IsJumpButtonPressed && !(_isJumping);
 
     private void Jump()
     {
