@@ -20,6 +20,7 @@ namespace Assets.CodeBase.Core
         {
             _services.RegisterService(new FactoryHero(_heroPrefab));
             _services.RegisterService(new InputService());
+            _services.RegisterService(new SaveLoadService());
         }
     }
 }

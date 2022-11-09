@@ -25,4 +25,7 @@ internal class InputService: IService
 
     public bool IsShootButtonClicked() 
         => Input.GetMouseButtonDown(0);
+
+    public bool IsSaveButtonClicked()
+        => Input.GetKeyDown(KeyCode.F5);
 }
