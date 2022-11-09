@@ -1,48 +1,34 @@
 ﻿using Assets.CodeBase.Core;
 using UnityEngine;
 
-internal class SaveLoadService: ISaveLoadService
+public class SaveLoadService: ISaveLoadService
 {
-    private GameObject _player = null;
-    public void Save()
-    {
-        if (HasNotPlayer())
-            InitPlayer();
+    private PersistentData _persistentData;
+    private Extensions _services = Extensions.Instance;
+    private FactoryHero _factoryHero;
 
-        SaveSpawnPoint();
+    public SaveLoadService()
+    {
+        _factoryHero = _services.GetService<FactoryHero>();
+        _persistentData = new PersistentData();
+    }
+
+    public void SaveAll()
+    {
+        _factoryHero.Save(_persistentData);
+
+        PlayerPrefs.SetString("data" ,JsonUtility.ToJson(_persistentData));
+
+        Debug.Log(_persistentData.HeroPosition.y);
+        Debug.Log(_persistentData.HeroPosition.x);
+        Debug.Log(_persistentData.HeroPosition.z);
+        Debug.Log(JsonUtility.ToJson(_persistentData));
+        PlayerPrefs.Save();
     }
 
     public void Load()
     {
-        GetSpawnPointPosition(out string spawnPointPosition);
-
-        if (spawnPointPosition != "")
-            ChangeSpawnPointObjectPosition(spawnPointPosition);
-    }
-
-    private void GetSpawnPointPosition(out string spawnPoint)
-    {
-        spawnPoint = PlayerPrefs.GetString("spawnPoint");
-    }
-
-    private void ChangeSpawnPointObjectPosition(string spawnPointPosition)
-    {
-        GameObject spawnPointObj = GameObject.FindGameObjectWithTag("SpawnPoint");
-        spawnPointObj.transform.position = JsonUtility.FromJson<Vector3>(spawnPointPosition);
-    }
-
-    private bool HasNotPlayer()
-    {
-        return _player == null;
-    }
-    private void InitPlayer()
-    {
-        _player = GameObject.FindGameObjectWithTag("Player");
-    }
-
-    private void SaveSpawnPoint()
-    {
-        PlayerPrefs.SetString("spawnPoint", JsonUtility.ToJson(_player.transform.position));
-        PlayerPrefs.Save();
+        _persistentData = JsonUtility.FromJson<PersistentData>(PlayerPrefs.GetString("data"));
+        _factoryHero.Load(_persistentData);
     }
 }

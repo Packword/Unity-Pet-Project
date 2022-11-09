@@ -2,7 +2,7 @@
 {
     public interface ISaveLoadService: IService
     {
-        public void Save();
+        public void SaveAll();
         public void Load();
     }
 }

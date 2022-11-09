@@ -5,23 +5,15 @@ namespace Assets.CodeBase.Core
     internal class LoadLevelState : IState
     {
         private readonly FactoryHero _factoryHero;
-        private readonly SaveLoadService _saveLoadService;
 
-        public LoadLevelState(FactoryHero factoryHero, SaveLoadService saveLoadService)
+        public LoadLevelState(FactoryHero factoryHero)
         { 
             _factoryHero = factoryHero;
-            _saveLoadService = saveLoadService;
         }
 
         public void Enter()
         {
-            Load();
             CreateHero();
-        }
-
-        private void Load()
-        {
-            _saveLoadService.Load();
         }
 
         private void CreateHero()

@@ -26,6 +26,7 @@ internal class PlayerSaving: MonoBehaviour
 
     private void Save()
     {
-        _saveLoadService.Save();
+        _saveLoadService.SaveAll();
+
     }
 }

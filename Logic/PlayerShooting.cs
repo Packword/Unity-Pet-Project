@@ -10,9 +10,13 @@ public class PlayerShooting : MonoBehaviour
 
     private readonly Extensions _services = Extensions.Instance;
     private InputService _inputService;
+    private FactoryProjectile _factoryProjectile;
 
     private void Start()
-        => _inputService = _services.GetService<InputService>();
+    {
+        _inputService = _services.GetService<InputService>();
+        _factoryProjectile = _services.GetService<FactoryProjectile>();
+    }
 
     private void Update()
     {
@@ -57,8 +61,6 @@ public class PlayerShooting : MonoBehaviour
 
     private void CreateProjectile(RaycastHit hit, Vector3 direction)
     {
-        GameObject projectile = Instantiate(_projectilePrefab, _gunPoint.position, Quaternion.identity);
-        projectile.transform.LookAt(hit.point);
-        projectile.GetComponent<Projectile>().Direction = direction;
+        _factoryProjectile.BuildProjectile(_gunPoint.position, hit.point, direction);
     }
 }
