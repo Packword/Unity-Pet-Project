@@ -18,11 +18,6 @@ public class SaveLoadService: ISaveLoadService
         _factoryHero.Save(_persistentData);
 
         PlayerPrefs.SetString("data" ,JsonUtility.ToJson(_persistentData));
-
-        Debug.Log(_persistentData.HeroPosition.y);
-        Debug.Log(_persistentData.HeroPosition.x);
-        Debug.Log(_persistentData.HeroPosition.z);
-        Debug.Log(JsonUtility.ToJson(_persistentData));
         PlayerPrefs.Save();
     }
 

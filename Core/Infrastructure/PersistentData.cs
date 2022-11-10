@@ -6,6 +6,6 @@ namespace Assets.CodeBase.Core
     [Serializable]
     public class PersistentData
     {
-        public Vector3 HeroPosition { get; set; }
+        public Vector3 HeroPosition;
     }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 using Assets.CodeBase.Core;
 using System;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IWatcher
 {
     [SerializeField] private CharacterController _characterController;
     [SerializeField] private float _speed;
@@ -19,6 +19,17 @@ public class PlayerMovement : MonoBehaviour
         Vector3 inputVector = GetInputVector();
         if (HasInput())
             Run(inputVector);
+    }
+
+    public void Save(PersistentData persistentData)
+    {
+        var position = _characterController.transform.position;
+        persistentData.HeroPosition = position;
+    }
+
+    public void Load(PersistentData persistentData)
+    {
+        _characterController.transform.position = persistentData.HeroPosition;
     }
 
     private bool HasInput() 

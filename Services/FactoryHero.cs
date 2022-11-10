@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using Assets.CodeBase.Core;
+using System.Collections.Generic;
 
 public partial class FactoryHero: IService
 {
     private readonly GameObject _heroPrefab;
     private readonly Extensions _services = Extensions.Instance;
     private SaveLoadService _saveLoadService;
-    private Player _player;
+    private IWatcher _watcher;
 
 
     public FactoryHero(GameObject hero)
@@ -17,19 +18,23 @@ public partial class FactoryHero: IService
     public void BuildHero(Vector3 at) 
     {
         GameObject player = GameObject.Instantiate(_heroPrefab, at, Quaternion.identity);
-        _player = new Player();
+        var watchers = player.GetComponentsInChildren<IWatcher>();
+        for(int i = 0; i < watchers.Length; i++)
+        {
+            if (watchers[i] is PlayerMovement)
+                _watcher = watchers[i];
+        }
         _services.GetService<SaveLoadService>().Load();
-
-        player.transform.position = _player.Position;
+        
     }
 
     public void Save(PersistentData persistentData)
     {
-        _player.Save(persistentData);   
+        _watcher.Save(persistentData);
     }
 
     public void Load(PersistentData persistentData)
     {
-        _player.Load(persistentData);
+        _watcher.Load(persistentData);
     }
 }
