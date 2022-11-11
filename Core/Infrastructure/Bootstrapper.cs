@@ -22,7 +22,7 @@ namespace Assets.CodeBase.Core
             _services.RegisterService(new FactoryHero(_heroPrefab));
             _services.RegisterService(new FactoryProjectile(_projectilePrefab));
             _services.RegisterService(new InputService());
-            _services.RegisterService(new SaveLoadService());
+            _services.RegisterService(new SaveLoadService(_services.GetService<FactoryHero>()));
         }
     }
 }

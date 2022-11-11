@@ -4,12 +4,12 @@ using UnityEngine;
 public class SaveLoadService: ISaveLoadService
 {
     private PersistentData _persistentData;
-    private Extensions _services = Extensions.Instance;
-    private FactoryHero _factoryHero;
+    private readonly Extensions _services = Extensions.Instance;
+    private readonly FactoryHero _factoryHero;
 
-    public SaveLoadService()
+    public SaveLoadService(FactoryHero factoryHero)
     {
-        _factoryHero = _services.GetService<FactoryHero>();
+        _factoryHero = factoryHero;
         _persistentData = new PersistentData();
     }
 

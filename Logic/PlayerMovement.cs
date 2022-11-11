@@ -29,7 +29,9 @@ public class PlayerMovement : MonoBehaviour, IWatcher
 
     public void Load(PersistentData persistentData)
     {
-        _characterController.transform.position = persistentData.HeroPosition;
+        _characterController.enabled = false;
+        transform.position = persistentData.HeroPosition;
+        _characterController.enabled = true;
     }
 
     private bool HasInput() 

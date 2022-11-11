@@ -1,12 +1,9 @@
 ﻿using UnityEngine;
 using Assets.CodeBase.Core;
-using System.Collections.Generic;
 
 public partial class FactoryHero: IService
 {
     private readonly GameObject _heroPrefab;
-    private readonly Extensions _services = Extensions.Instance;
-    private SaveLoadService _saveLoadService;
     private IWatcher _watcher;
 
 
@@ -24,8 +21,6 @@ public partial class FactoryHero: IService
             if (watchers[i] is PlayerMovement)
                 _watcher = watchers[i];
         }
-        _services.GetService<SaveLoadService>().Load();
-        
     }
 
     public void Save(PersistentData persistentData)

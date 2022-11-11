@@ -14,7 +14,10 @@ namespace Assets.CodeBase.Core
             _states = new List<IState>
             {
                 new BootstrapperState(this),
-                new LoadLevelState(_services.GetService<FactoryHero>())
+                new LoadLevelState(
+                    _services.GetService<FactoryHero>(),
+                    _services.GetService<SaveLoadService>()
+                    )
             };
 
         public void SwitchState<TState>() 
